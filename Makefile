@@ -8,13 +8,11 @@ OUTPUT_PRESENTATION=$(BUILD_DIR)/presentation.pdf
 BUILD_DIR=build
 
 # Targets
-all: both
+all: document presentation
 
 document: $(OUTPUT_DOC)
 
 presentation: $(OUTPUT_PRESENTATION)
-
-both: document presentation
 
 clean:
 	rm -rf $(BUILD_DIR)/*
@@ -33,4 +31,4 @@ $(OUTPUT_PRESENTATION): $(INPUT_PRESENTATION)
 	$(BIBER) $(BUILD_DIR)/presentation
 	$(LATEX) -output-directory=$(BUILD_DIR) $(INPUT_PRESENTATION)  # Run pdflatex again
 
-.PHONY: all document presentation both clean
+.PHONY: all document presentation clean
