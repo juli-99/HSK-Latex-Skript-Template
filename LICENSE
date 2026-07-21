@@ -1,11 +1,166 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
-% The original template (the Legrand Orange Book Template) can be found here --> http://www.latextemplates.com/template/the-legrand-orange-book
-%
-% Original author of the Legrand Orange Book Template:
-% Mathias Legrand (legrand.mathias@gmail.com) with modifications by: Vel (vel@latextemplates.com)
-%
-% Original License:
-% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+================================================================================
+  HKA LaTeX-Vorlage  --  Lizenz
+  Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+  (CC BY-NC-SA 3.0)
+================================================================================
+
+Copyright (c) 2021-2026 PIX3LFLUX und Beitragende
+Copyright (c) Mathias Legrand, Vel  (Legrand Orange Book Template)
+Copyright (c) Hao Truong            (Beamer-Praesentationsteil)
+
+Dieses Werk ist lizenziert unter der Creative-Commons-Lizenz
+Namensnennung - Nicht kommerziell - Weitergabe unter gleichen Bedingungen
+3.0 Unported (CC BY-NC-SA 3.0).
+
+Vollstaendiger Lizenztext (rechtsverbindliche Fassung):
+    https://creativecommons.org/licenses/by-nc-sa/3.0/legalcode
+Allgemeinverstaendliche Zusammenfassung:
+    https://creativecommons.org/licenses/by-nc-sa/3.0/deed.de
+
+Massgeblich ist ausschliesslich der vollstaendige Lizenztext unter dem oben
+genannten Link. Die folgenden Abschnitte fassen ihn zusammen und erlaeutern,
+worauf er sich in diesem Repository bezieht -- sie ersetzen ihn nicht.
+
+
+--------------------------------------------------------------------------------
+  1. WAS ERLAUBT IST
+--------------------------------------------------------------------------------
+
+Du darfst
+
+  * das Material teilen -- in beliebigem Format vervielfaeltigen und
+    weiterverbreiten,
+  * das Material bearbeiten -- verändern, umgestalten und darauf aufbauen,
+
+und zwar unter den folgenden Bedingungen:
+
+  NAMENSNENNUNG (BY)
+      Angemessene Urheber- und Rechteangaben sind zu machen, ein Link auf die
+      Lizenz ist beizufuegen und Aenderungen sind anzugeben. Die Angaben duerfen
+      in jeder angemessenen Art und Weise gemacht werden, allerdings nicht so,
+      dass der Eindruck entsteht, die Lizenzgeber unterstuetzten dich oder deine
+      Nutzung besonders.
+
+      Fuer diese Vorlage genuegt in der Regel ein Hinweis wie:
+
+          Erstellt mit der HKA LaTeX-Vorlage
+          (https://github.com/PIX3LFLUX/HSK-Latex-Skript-Template),
+          basierend auf dem Legrand Orange Book Template von Mathias Legrand,
+          lizenziert unter CC BY-NC-SA 3.0.
+
+      Die entsprechenden Hinweise stehen bereits als Kommentar in den
+      Kopfzeilen der .tex-Dateien. Bitte dort belassen.
+
+  NICHT KOMMERZIELL (NC)
+      Das Material darf nicht fuer kommerzielle Zwecke genutzt werden.
+      Kommerziell ist eine Nutzung, die primaer auf einen geschaeftlichen
+      Vorteil oder eine geldwerte Verguetung ausgerichtet ist.
+
+  WEITERGABE UNTER GLEICHEN BEDINGUNGEN (SA)
+      Wird das Material bearbeitet oder anderweitig umgestaltet, darf das
+      Ergebnis nur unter derselben Lizenz wie das Original verbreitet werden.
+
+  KEINE ZUSAETZLICHEN EINSCHRAENKUNGEN
+      Es duerfen keine zusaetzlichen Klauseln oder technischen Verfahren
+      eingesetzt werden, die anderen rechtlich irgendetwas untersagen, was die
+      Lizenz erlaubt.
+
+
+--------------------------------------------------------------------------------
+  2. WORAUF SICH DIE LIZENZ BEZIEHT
+--------------------------------------------------------------------------------
+
+ERFASST sind die Bestandteile der Vorlage selbst, insbesondere
+
+  * saemtliche .tex-Dateien in Document/ und Presentation/
+    (Hauptdateien, Layout-Dateien, Makros, Beispiel- und Geruestkapitel),
+  * bibliography.bib, Makefile, .gitignore, .gitattributes,
+  * README.md und diese Datei.
+
+NICHT ERFASST sind:
+
+  a) DEINE EIGENEN INHALTE
+     Texte, Abbildungen, Messdaten, Formeln und alles Weitere, das du in die
+     Vorlage einfuegst, bleiben dein Werk. Die ShareAlike-Klausel greift fuer
+     die Bearbeitung der Vorlage, nicht fuer den Inhalt, den du damit setzt.
+     Ein mit dieser Vorlage gesetztes Skript oder eine Abschlussarbeit ist
+     deshalb kein automatisch CC-lizenziertes Werk. Beachte dabei die Vorgaben
+     deiner Hochschule und deines Betreuers.
+
+  b) CORPORATE DESIGN, LOGO UND MARKEN DER HOCHSCHULE KARLSRUHE
+     Das Wort-Bild-Zeichen "+|KA", der Name "Hochschule Karlsruhe" bzw.
+     "University of Applied Sciences", die Hausfarben sowie die im Ordner
+     Presentation/Templates/ enthaltenen Hintergrund-PDFs sind Bestandteil des
+     Corporate Designs der Hochschule Karlsruhe. Sie werden hier zur Nutzung im
+     Hochschulkontext bereitgestellt und unterliegen NICHT der CC-Lizenz,
+     sondern den Vorgaben der Hochschule Karlsruhe.
+
+     Die Gestaltung dieser Vorlage wurde von der Abteilung Presse und
+     Kommunikation der HKA geprueft und freigegeben. Diese Freigabe bezieht
+     sich auf die Vorlage in ihrer gelieferten Form. Wer Logo, Farben oder
+     Layout veraendert, kann sich nicht mehr auf die Freigabe berufen.
+
+     Fuer eine Verwendung ausserhalb des Hochschulkontexts sind Logo und
+     Corporate Design zu entfernen. Ansprechpartner bei Fragen zur Verwendung
+     ist die Abteilung Presse und Kommunikation der HKA.
+
+  c) BILDMATERIAL IM ORDNER Pictures/
+     Die mitgelieferten Beispielbilder (Titelbild, Kapitelbilder, Platzhalter)
+     dienen ausschliesslich der Demonstration des Layouts. Fuer sie koennen
+     abweichende Rechte gelten; eine Weiterverwendung ausserhalb dieser Vorlage
+     ist nicht ohne Weiteres zulaessig.
+
+     Fuer alle Bilder, die du selbst in Pictures/ ablegst, bist du fuer die
+     Rechteklaerung verantwortlich. Im Zweifel eigene Aufnahmen, eindeutig
+     freie Bilder oder generativ erzeugte Motive verwenden.
+
+  d) EINGEBUNDENE LaTeX-PAKETE
+     Die von der Vorlage geladenen Pakete (biblatex, glossaries, circuitikz,
+     siunitx, beamer, plex-sans, avant und weitere) sind eigenstaendige Werke
+     Dritter und unterliegen ihren jeweiligen Lizenzen, ueberwiegend der
+     LaTeX Project Public License (LPPL). Sie werden von dieser Lizenz nicht
+     beruehrt.
+
+
+--------------------------------------------------------------------------------
+  3. HERKUNFT UND BEARBEITUNGSKETTE
+--------------------------------------------------------------------------------
+
+Diese Vorlage ist eine Bearbeitung ("Adaptation") bestehender Werke. Die
+NC-Klausel stammt aus dem Ursprungswerk und kann daher nicht einseitig
+entfernt oder durch eine freizuegigere Lizenz ersetzt werden.
+
+  Ursprungswerk (Skript-Layout):
+      The Legrand Orange Book Template
+      http://www.latextemplates.com/template/the-legrand-orange-book
+      Autor:        Mathias Legrand  <legrand.mathias@gmail.com>
+      Bearbeitung:  Vel              <vel@latextemplates.com>
+      Lizenz:       CC BY-NC-SA 3.0
+                    http://creativecommons.org/licenses/by-nc-sa/3.0/
+
+  Praesentationsteil (Beamer):
+      Autor:        Hao Truong       <haotruongnhat@gmail.com>
+
+  Anpassung an das Corporate Design der Hochschule Karlsruhe,
+  Umstrukturierung und Weiterentwicklung:
+      PIX3LFLUX und Beitragende
+      https://github.com/PIX3LFLUX/HSK-Latex-Skript-Template
+
+
+--------------------------------------------------------------------------------
+  4. HAFTUNGSAUSSCHLUSS
+--------------------------------------------------------------------------------
+
+Das Material wird ohne Maengelgewaehr und ohne Garantien jeglicher Art zur
+Verfuegung gestellt, weder ausdruecklich noch stillschweigend. Die Lizenzgeber
+uebernehmen keine Haftung fuer Schaeden, die aus der Nutzung des Materials
+entstehen -- soweit gesetzlich zulaessig. Insbesondere wird keine Zusicherung
+gegeben, dass die Vorlage die formalen Anforderungen einer bestimmten
+Pruefungsordnung, Fakultaet oder Betreuung erfuellt. Pruefe das vor der Abgabe
+eigenverantwortlich.
+
+Die genauen Bedingungen und Grenzen dieses Haftungsausschlusses ergeben sich aus
+Abschnitt 5 und 6 des vollstaendigen Lizenztextes:
+https://creativecommons.org/licenses/by-nc-sa/3.0/legalcode
+
+================================================================================
