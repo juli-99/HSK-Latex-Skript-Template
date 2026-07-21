@@ -1,0 +1,163 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Beamer-Praesentation im Corporate Design der Hochschule Karlsruhe
+%
+%  ---------------------------------------------------------------------------
+%  ALLES, WAS ANGEPASST WERDEN MUSS, STEHT IM ABSCHNITT "ZENTRALE ANGABEN".
+%  ---------------------------------------------------------------------------
+%
+%  Kompilieren:  latexmk -pdf presentation.tex
+%
+%  Voraussetzung: Der Ordner Templates/ enthaelt die vier Hintergrund-PDFs des
+%  HKA-Corporate-Designs (HKA-Opening, HKA-Normal, HKA_Opening_KA_text,
+%  HKA_Slide_KA_text). Ohne sie bricht der Lauf ab.
+%
+%  Bilder liegen eine Ebene hoeher in ../Pictures/ und werden ohne diesen
+%  Pfad angegeben -- \graphicspath erledigt das.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[17pt, t, aspectratio=169, xcolor=table]{beamer}
+
+% Zum Drucken ohne \pause-Schritte stattdessen diese Zeile verwenden:
+% \documentclass[handout, 17pt, t, aspectratio=169, xcolor=table]{beamer}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  ZENTRALE ANGABEN -- HIER ANPASSEN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------------------------
+%  1. Fakultaet: genau eine \colorlet-Zeile aktiv lassen
+%------------------------------------------------------------------------------
+% Gleiche Systematik wie im Skript (document.tex): Alle Hausfarben sind
+% benannt vordefiniert, gewechselt wird ueber eine einzige Zeile.
+
+\definecolor{HKA@eit}{RGB}{ 40,135, 50} % Elektro- und Informationstechnik
+\definecolor{HKA@ab} {RGB}{ 25,130,130} % Architektur und Bauwesen
+\definecolor{HKA@mmt}{RGB}{ 40,105,175} % Maschinenbau und Mechatronik
+\definecolor{HKA@w}  {RGB}{ 30, 70,150} % Wirtschaftswissenschaften
+\definecolor{HKA@iwi}{RGB}{100, 55,140} % Informatik und Wirtschaftsinformatik
+\definecolor{HKA@imm}{RGB}{140, 45,130} % Informationsmanagement und Medien
+
+\colorlet{ThemeColor}{HKA@eit}          % <<<<< HIER Fakultaet waehlen
+
+\definecolor{LegendColor}{RGB}{ 89, 89, 89}   % Bildbeschriftungen
+\definecolor{TableHighLight}{RGB}{190,250,196} % Hervorhebung in Tabellen
+
+%------------------------------------------------------------------------------
+%  2. Angaben zur Praesentation
+%------------------------------------------------------------------------------
+\newcommand{\talkTitle}   {Willkommen}
+\newcommand{\talkSubtitle}{Einführung: Präsentationen mit \LaTeX{} erstellen}
+\newcommand{\talkAuthor}  {Vorname Nachname}
+\newcommand{\talkKeywords}{Keyword1, Keyword2, Keyword3}
+
+% Titelbild der Eroeffnungsfolien (ohne Ordner, ohne Endung nicht noetig)
+\newcommand{\talkCoverImage}{chapter_image_1.jpg}
+
+%------------------------------------------------------------------------------
+%  3. Fusszeile
+%------------------------------------------------------------------------------
+% Ohne \foottext zeigt die Fusszeile links Hochschule, Datum und Foliennummer.
+% Wird \foottext definiert, erscheint stattdessen eine zentrierte Zeile.
+% Global einschalten: die folgende Zeile einkommentieren.
+% Fuer einzelne Folien laesst sich \foottext auch lokal in einer Gruppe setzen
+% (siehe Beispiel in 99_example.tex).
+
+% \newcommand{\foottext}{Hochschule Karlsruhe --- Fakultät für Elektro- und Informationstechnik --- \talkAuthor}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  AB HIER NORMALERWEISE NICHTS AENDERN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------------------------
+%  Layout und Befehle
+%------------------------------------------------------------------------------
+% ThemeColor ist oben bereits definiert -- structure_presentation.tex
+% verwendet die Farbe schon in der Praeambel.
+
+\input{structure_presentation.tex}
+
+\usecolortheme[named=ThemeColor]{structure}
+
+%------------------------------------------------------------------------------
+%  Bildpfad und Literatur
+%------------------------------------------------------------------------------
+% graphicx und tikz laedt bereits structure_presentation.tex.
+\graphicspath{{../Pictures/}} %Nutzt die gleichen Bilder wie im Skript
+\addbibresource{../bibliography.bib} %Nutzt die gleiche *.bib File wie das das Skript
+
+%------------------------------------------------------------------------------
+%  Layoutmasse
+%------------------------------------------------------------------------------
+% Alle Masse in cm, abgestimmt auf das Folienformat 33,867 x 19,05 cm.
+% Sie werden direkt in TikZ-Koordinaten eingesetzt, daher \newcommand statt
+% \newlength -- so lassen sich Ausdruecke wie {\leftmarginpos + 3cm} schreiben.
+
+\newcommand{\covertextsize}{44}     % Titel auf den Eroeffnungsfolien
+\newcommand{\coversubtitlesize}{20} % Untertitel auf den Eroeffnungsfolien
+\newcommand{\titletextsize}{32}     % Folienueberschrift
+\newcommand{\contenttextsize}{18}   % Fliesstext
+
+\newcommand{\leftmarginpos}{0.9335cm}  % linker Satzrand
+\newcommand{\topmargintitle}{-0.825cm} % Oberkante Folienueberschrift
+\newcommand{\topmargincontent}{-3.5cm} % Oberkante Inhaltsbereich
+
+\newcommand{\maximumwidth}{31.912cm}  % nutzbare Breite
+\newcommand{\maximumheight}{12.613cm} % nutzbare Hoehe
+
+\newcommand{\columnmaxwidth}{15.45cm}    % Spaltenbreite im Zweispalter
+\newcommand{\secondcolumnstart}{17.395cm} % linke Kante der zweiten Spalte
+
+\newcommand{\captionsize}{normalsize}
+\usepackage[font=\captionsize, skip=4pt, width=.75\textwidth]{caption}
+
+%------------------------------------------------------------------------------
+%  PDF-Metadaten
+%------------------------------------------------------------------------------
+% Fehlten bisher komplett -- das fertige PDF trug weder Titel noch Autor.
+%
+% \title und \author sind noetig, weil die Beamer-Klasse daraus beim
+% \begin{document} ihre eigenen PDF-Metadaten setzt und ein blosses
+% \hypersetup{pdftitle=...} dabei wieder ueberschrieben wuerde.
+\title{\talkTitle}
+\subtitle{\talkSubtitle}
+\author{\talkAuthor}
+\date{\today}
+
+\hypersetup{
+	pdftitle    = {\talkTitle},
+	pdfauthor   = {\talkAuthor},
+	pdfsubject  = {\talkSubtitle},
+	pdfkeywords = {\talkKeywords},
+	pdflang     = {de-DE},
+}
+
+%------------------------------------------------------------------------------
+%  Fussnotenmarken unterdruecken
+%------------------------------------------------------------------------------
+% Auf Folien stoeren hochgestellte Ziffern; der Fussnotentext bleibt erhalten.
+\makeatletter
+\def\@makefnmark{}
+\makeatother % fehlte bisher -- @ blieb im gesamten Dokument ein Buchstabe
+
+
+\begin{document}
+
+%--- Eroeffnungsfolie ohne Untertitel -----------------------------------------
+\EITCoverVI{\talkTitle}{\talkAuthor}{\talkCoverImage}
+
+%--- Eroeffnungsfolie mit Untertitel ------------------------------------------
+\EITCoverSubtitleVI{\talkTitle}{\talkSubtitle}{\talkAuthor}{\talkCoverImage}
+
+%--- Inhaltsverzeichnis -------------------------------------------------------
+% Zweites Argument: Zeilenabstand. Bei vielen Abschnitten kleiner waehlen.
+\EITTableOfContent{Inhaltsverzeichnis}{2}
+
+%--- Folien -------------------------------------------------------------------
+% Beispielfolien; fuer die eigene Praesentation ersetzen.
+\input{99_example.tex}
+
+\end{document}

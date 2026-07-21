@@ -1,36 +1,57 @@
-\newcommand{\germanlipsum}{
-    Lorem ipsum ist ein pseudo-Lateinischer Text für Webdesign,
-    Typografie, Layout und Printmedien. Er ersetzt Deutsch um Designelemente
-    gegenüber dem Inhalt hervorzuheben, hat also die Funktion als Platzhalters
-    in Layouts um dem Betrachter eine vorläufige Vorstellung der endgültigen Fassung
-    zu vermitteln. Buchstaben, Worte, Wort- und Satzlängen bilden ungefähr das Schriftbild eines
-    lateinischen Texts wieder. Latein war in früheren Jahrhunderten eine häufig
-    genutzte Sprache verschiedener Textgattungen, z. B. wissenschaftlicher Werke,
-    Ratgeber, oder auch der sogenannten Erbauungsliteratur. Um die Aufmerksamkeit des
-    Lesers ausschließlich auf das Schriftbild zu lenken wird auch ein zufälliger Sinn
-    durch Wort- oder Satzkombinationen vermieden.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Beispielfolien -- Schaufenster aller Folienbausteine
+%
+%  Dieses File dient als Nachschlagewerk beim Bauen der eigenen Folien und
+%  gehoert NICHT in die fertige Praesentation. Vor dem Vortrag einfach den
+%  \input in presentation.tex loeschen.
+%
+%  Uebersicht der Bausteine:
+%    \EITHeadlineFT{Titel}{Inhalt}     Standardfolie mit Ueberschrift
+%    \placetextbox{x}{y}{breite}{...}  frei positionierter Textblock
+%    \placepictureandtext{...}         Bild mit Beschriftung darunter
+%    \picdims[opt]{breite}{hoehe}{..}  Bild auf feste Masse zuschneiden
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%--- Blindtext nur fuer diese Beispielfolien ----------------------------------
+\newcommand{\germanlipsum}{%
+	Lorem ipsum ist ein pseudo-lateinischer Text für Webdesign, Typografie,
+	Layout und Printmedien. Er ersetzt Deutsch, um Designelemente gegenüber
+	dem Inhalt hervorzuheben, hat also die Funktion eines Platzhalters im
+	Layout, um dem Betrachter eine vorläufige Vorstellung der endgültigen
+	Fassung zu vermitteln. Buchstaben, Worte, Wort- und Satzlängen geben
+	ungefähr das Schriftbild eines lateinischen Textes wieder. Um die
+	Aufmerksamkeit ausschließlich auf das Schriftbild zu lenken, wird ein
+	zufälliger Sinn durch Wort- oder Satzkombinationen vermieden.%
 }
-\newcommand{\germanlipsumshort}{
-    Lorem ipsum ist ein pseudo-Lateinischer Text für Webdesign,
-    Typografie, Layout und Printmedien.
+\newcommand{\germanlipsumshort}{%
+	Lorem ipsum ist ein pseudo-lateinischer Text für Webdesign, Typografie,
+	Layout und Printmedien.%
 }
 
-\section{EIT Präsentation}
 
-\EITHeadlineFT{EIT Präsentation}{
+%==============================================================================
+\section{Textfolien}
+%==============================================================================
+
+\EITHeadlineFT{Folie mit Fließtext}{
 	\germanlipsum
 }
 
+% \foottext wirkt bis zum Ende der umgebenden Gruppe -- die geschweiften
+% Klammern um diesen Block begrenzen die Wirkung also auf diese eine Folie.
+% Fuer die gesamte Praesentation stattdessen \foottext in presentation.tex
+% einkommentieren.
 {
-\newcommand{\foottext}{Hochschule Karlsruhe — Fakultät für Elektro- und Informationstechnik — Vorname Nachname}
-\EITHeadlineFT{EIT Präsentation mit Foot Text}{
-	If there is \textbf{foottext} command defined in the code, the foot text will be replaced, such as this slide for example.
-	
-	Uncomment \textbf{line 44} for global effect.
+\newcommand{\foottext}{Hochschule Karlsruhe --- Fakultät für Elektro- und Informationstechnik --- Vorname Nachname}
+\EITHeadlineFT{Folie mit eigener Fußzeile}{
+	Ist \textbf{\textbackslash foottext} definiert, ersetzt eine zentrierte
+	Zeile die Standardfußzeile -- so wie auf dieser Folie.
+
+	Ohne diese Definition stehen links Hochschule, Datum und Foliennummer.
 }
 }
 
-\EITHeadlineFT{EIT Präsentation mit Liste}{
+\EITHeadlineFT{Folie mit Liste}{
 	\begin{itemize}
 		\item \germanlipsumshort
 		\item \germanlipsumshort
@@ -39,21 +60,30 @@
 	\end{itemize}
 }
 
-\section{EIT Präsentation mit Equation}
-\EITHeadlineFT{EIT Präsentation mit Equation}
-{
-	Reference to Eq. \ref{eq:first_eq}.
+
+%==============================================================================
+\section{Formeln}
+%==============================================================================
+
+\EITHeadlineFT{Folie mit Formel}{
+	Verwiesen wird mit \textbf{\textbackslash cref}, das Wort davor kommt
+	automatisch: \cref{eq:beispiel}.
 
 	\begin{equation}
-		f(x)=\left\{\begin{aligned}      & \mathrm{e}^{|x|} &  & \text{si $|x-x^0|\leq 1/2$} \\
-                     & 0                &  & \text{si $|x-x^0|> 1/2$}\end{aligned}\right.
-		\label{eq:first_eq}
+		f(x)=\left\{\begin{aligned}
+			& \mathrm{e}^{|x|} & & \text{falls $|x-x^0|\leq 1/2$} \\
+			& 0                & & \text{falls $|x-x^0| > 1/2$}
+		\end{aligned}\right.
+		\label{eq:beispiel}
 	\end{equation}
 }
 
-\section{EIT Präsentation mit 2 Spalten}
-\EITHeadlineFT{EIT Präsentation mit 2 Spalten}
-{
+
+%==============================================================================
+\section{Mehrspaltige Folien}
+%==============================================================================
+
+\EITHeadlineFT{Folie mit zwei Spalten}{
 	\placetextbox{\leftmarginpos}{\topmargincontent}{\columnmaxwidth}{
 		\germanlipsum
 	}
@@ -62,132 +92,137 @@
 	}
 }
 
-\EITHeadlineFT{EIT Präsentation mit schwebendem Text}
-{
+\EITHeadlineFT{Frei positionierter Text}{
+	% Die Masse lassen sich als Ausdruck schreiben, TikZ rechnet das aus.
 	\placetextbox{\leftmarginpos + 3cm}{\topmargincontent - 1cm}{\columnmaxwidth}{
 		\germanlipsum
 	}
 }
 
-\section{EIT Präsentation mit Tabelle}
-\EITHeadlineFT{EIT Präsentation mit Tabelle}{
 
-	Reference Table \ref{tab:version1}
+%==============================================================================
+\section{Tabellen}
+%==============================================================================
+
+\EITHeadlineFT{Folie mit Tabelle}{
+
+	Verwiesen wird auf \cref{tab:messwerte}.
 
 	\begin{table}[!h]
 		\centering
 		\begin{threeparttable}
+			% Spaltentyp S richtet an der Kommastelle aus (siunitx).
 			\begin{tabular}{@{} l S[table-format=6.0] l S[table-format=5.0] cc @{}}
 				\toprule
-				{nº} & {CID Ligando} & {Nombre Ligando} & {Afinidad}                      & \multicolumn{2}{c@{}}{RMSD}          \\
+				{Nr.} & {Kennnummer} & {Bezeichnung} & {Messwert} & \multicolumn{2}{c@{}}{Abweichung} \\
 				\cmidrule(l){5-6}
-				     &               &                  & {(Kcal/mol)\textsuperscript{2}} & {l.b.}                      & {u.b.} \\
+				      &              &               & {(mV)}     & {unten} & {oben} \\
 				\midrule
-				1    & 234523        & LoremIpsum       & 234                             & 0                           & 0      \\
-				2    & 2345          & LoremIpsum       & 2365                            & 0                           & 0      \\
-				3    & 3453          & LoremIpsum       & 45634                           & 0                           & 0      \\
-				4    & 83452         & LoremIpsum       & 2456                            & 0                           & 0      \\
+				1 & 234523 & Probe A & 234   & 0 & 0 \\
+				2 & 2345   & Probe B & 2365  & 0 & 0 \\
+				3 & 3453   & Probe C & 45634 & 0 & 0 \\
+				4 & 83452  & Probe D & 2456  & 0 & 0 \\
 				\addlinespace
-				5    & 210           & LoremIpsum       & 245                             & 0                           & 0      \\
-				6    & 3417          & LoremIpsum       & 45634                           & 0                           & 0      \\
-				7    & 4345          & LoremIpsum       & 3456                            & 0                           & 0      \\
-				8    & 4334          & LoremIpsum       & 3456                            & 0                           & 0      \\
+				5 & 210    & Probe E & 245   & 0 & 0 \\
+				6 & 3417   & Probe F & 45634 & 0 & 0 \\
+				7 & 4345   & Probe G & 3456  & 0 & 0 \\
+				8 & 4334   & Probe H & 3456  & 0 & 0 \\
 				\bottomrule
 			\end{tabular}
-			\caption{Valores de afinidad obtenidos para los ocho fármacos en \textit{Autodock Vina}}
-			\label{tab:version1}
+			\caption{Messwerte der acht Proben aus der Vergleichsmessung}
+			\label{tab:messwerte}
 		\end{threeparttable}
 	\end{table}
 }
 
-
-\EITHeadlineFT{EIT Präsentation mit schwebendem Tabelle}{
+\EITHeadlineFT{Frei positionierte Tabelle}{
 	\placetextbox{0.2\paperwidth}{-0.2\paperheight}{\maximumwidth}{
 		\begin{table}[!h]
 			\centering
 			\begin{threeparttable}
 				\begin{tabular}{@{} l S[table-format=6.0] l S[table-format=5.0] cc @{}}
 					\toprule
-					{nº} & {CID Ligando} & {Nombre Ligando} & {Afinidad}                      & \multicolumn{2}{c@{}}{RMSD}          \\
+					{Nr.} & {Kennnummer} & {Bezeichnung} & {Messwert} & \multicolumn{2}{c@{}}{Abweichung} \\
 					\cmidrule(l){5-6}
-					     &               &                  & {(Kcal/mol)\textsuperscript{2}} & {l.b.}                      & {u.b.} \\
+					      &              &               & {(mV)}     & {unten} & {oben} \\
 					\midrule
-					1    & 234523        & LoremIpsum       & 234                             & 0                           & 0      \\
-					2    & 2345          & LoremIpsum       & 2365                            & 0                           & 0      \\
-					3    & 3453          & LoremIpsum       & 45634                           & 0                           & 0      \\
-					4    & 83452         & LoremIpsum       & 2456                            & 0                           & 0      \\
-					\addlinespace
-					5    & 210           & LoremIpsum       & 245                             & 0                           & 0      \\
-					6    & 3417          & LoremIpsum       & 45634                           & 0                           & 0      \\
-					7    & 4345          & LoremIpsum       & 3456                            & 0                           & 0      \\
-					8    & 4334          & LoremIpsum       & 3456                            & 0                           & 0      \\
+					1 & 234523 & Probe A & 234   & 0 & 0 \\
+					2 & 2345   & Probe B & 2365  & 0 & 0 \\
+					3 & 3453   & Probe C & 45634 & 0 & 0 \\
+					4 & 83452  & Probe D & 2456  & 0 & 0 \\
 					\bottomrule
 				\end{tabular}
-				\caption{Valores de afinidad obtenidos para los ocho fármacos en \textit{Autodock Vina}}
-				\label{tab:version2}
+				\caption{Auszug der Messwerte, frei auf der Folie platziert}
+				\label{tab:messwerte-frei}
 			\end{threeparttable}
 		\end{table}
 	}
 }
 
-\section{EIT Präsentation mit Abbildung}
-\EITHeadlineFT{EIT Präsentation mit Abbildung}{
-	Reference to Fig. \ref{fig:version1}
+
+%==============================================================================
+\section{Abbildungen}
+%==============================================================================
+
+\EITHeadlineFT{Abbildung mit Beschriftung}{
+	Verwiesen wird auf \cref{fig:zugeschnitten}.
 
 	\begin{figure}[h]
 		\centering
 		\begin{measuredfigure}
-			\picdims[width=\paperwidth]{\columnmaxwidth}{\maximumheight}{Pictures/chapter_image_1.jpg}
-			\caption{Valores de afinidad obtenidos para los ocho fármacos en \textit{Autodock Vina}}
+			\picdims[width=\paperwidth]{\columnmaxwidth}{\maximumheight}{chapter_image_1.jpg}
+			\caption{Auf feste Maße zugeschnittenes Bild}
 		\end{measuredfigure}
-		\MeasuredFigureLabel{fig:version1}
+		\MeasuredFigureLabel{fig:zugeschnitten}
 	\end{figure}
 }
 
-\EITHeadlineFT{EIT Präsentation mit Abbildung}{
-	Reference to Fig. \ref{fig:version2}
+\EITHeadlineFT{Abbildung in fester Breite}{
+	Verwiesen wird auf \cref{fig:festebreite}.
 
 	\begin{figure}[h]
 		\centering
 		\begin{measuredfigure}
-			\includegraphics[scale=0.5]{Pictures/chapter_image_1.jpg}
-			\caption{Valores de afinidad obtenidos para los ocho fármacos en \textit{Autodock Vina}}
+			% Bewusst width statt scale: scale haengt an der Pixelaufloesung
+			% der Bilddatei, ein Bild mit doppelter Aufloesung wuerde bei
+			% gleichem scale-Wert ueber den Folienrand laufen.
+			\includegraphics[width=0.45\paperwidth]{chapter_image_1.jpg}
+			\caption{Bild mit fest vorgegebener Breite}
 		\end{measuredfigure}
-		\MeasuredFigureLabel{fig:version2}
+		\MeasuredFigureLabel{fig:festebreite}
 	\end{figure}
 }
 
-\section{EIT Präsentation mit Bild}
-\EITHeadlineFT{EIT Präsentation mit Bild}
-{
+
+%==============================================================================
+\section{Bildfolien}
+%==============================================================================
+
+\EITHeadlineFT{Folie mit einem Bild}{
 	\placetextbox{\leftmarginpos}{\topmargincontent}{\maximumwidth}{
-		\picdims[width=\maximumwidth]{\maximumwidth}{\maximumheight}{Pictures/chapter_image_1.jpg}
+		\picdims[width=\maximumwidth]{\maximumwidth}{\maximumheight}{chapter_image_1.jpg}
 	}
 }
 
-
-\EITHeadlineFT{EIT Präsentation 2 Bilder}{
+\EITHeadlineFT{Folie mit zwei Bildern}{
 	\placetextbox{\leftmarginpos}{\topmargincontent}{\columnmaxwidth}{
-		\picdims[width=\paperwidth]{\columnmaxwidth}{\maximumheight}{Pictures/chapter_image_1.jpg}
+		\picdims[width=\paperwidth]{\columnmaxwidth}{\maximumheight}{chapter_image_1.jpg}
 	}
-
 	\placetextbox{\secondcolumnstart}{\topmargincontent}{\columnmaxwidth}{
-		\picdims[width=\paperwidth]{\columnmaxwidth}{\maximumheight}{Pictures/chapter_image_1.jpg}
+		\picdims[width=\paperwidth]{\columnmaxwidth}{\maximumheight}{chapter_image_2.jpg}
 	}
 }
 
-\EITHeadlineFT{EIT Präsentation mit schwebendem Bild}
-{
+\EITHeadlineFT{Frei positioniertes Bild}{
 	\placetextbox{\leftmarginpos + 0.2\paperwidth}{\topmargincontent - 5cm}{\maximumwidth}{
-		\includegraphics[scale=0.5]{Pictures/chapter_image_1.jpg}
+		\includegraphics[width=0.45\paperwidth]{chapter_image_1.jpg}
 	}
 }
 
-\EITHeadlineFT{EIT Präsentation mit schwebendem Bild und Text}
-{
+\EITHeadlineFT{Frei positioniertes Bild mit Beschriftung}{
 	\placepictureandtext{\leftmarginpos + 0.2\paperwidth}{\topmargincontent - 5cm}{\maximumwidth}{0cm}{0.1cm}
 	{
-		\includegraphics[scale=0.5]{Pictures/chapter_image_1.jpg}
+		\includegraphics[width=0.45\paperwidth]{chapter_image_1.jpg}
 	}
 	{
 		\color{LegendColor}\fontsize{7.7pt}{3pt}\selectfont
@@ -195,29 +230,30 @@
 	}
 }
 
-\EITHeadlineFT{EIT Präsentation mit Text und Bild}{
-
+\EITHeadlineFT{Text links, Bild rechts}{
 	\placetextbox{\leftmarginpos}{\topmargincontent}{\columnmaxwidth}{
-		\lipsum[2]
+		\germanlipsum
 	}
-
 	\placetextbox{\secondcolumnstart}{\topmargincontent}{\columnmaxwidth}{
-		\picdims[width=\paperwidth]{\columnmaxwidth}{\maximumheight}{Pictures/chapter_image_1.jpg}
+		\picdims[width=\paperwidth]{\columnmaxwidth}{\maximumheight}{chapter_image_1.jpg}
 	}
 }
 
+% Randlose Bildfolie: leere Ueberschrift, Bild ueber die volle Folienflaeche.
 \EITHeadlineFT{}{
-
 	\placetextbox{0cm}{0cm}{\paperwidth}{
-		\picdims[width=\paperwidth]{\paperwidth}{16cm}{Pictures/chapter_image_1.jpg}
+		\picdims[width=\paperwidth]{\paperwidth}{16cm}{chapter_image_1.jpg}
 	}
-
 }
 
-\EITHeadlineFT{References}{
+
+%==============================================================================
+\section{Quellen}
+%==============================================================================
+
+\EITHeadlineFT{Literatur}{
 	\begin{itemize}
 		\item \fullcite{article_key}
 		\item \fullcite{book_key}
 	\end{itemize}
 }
-

@@ -1,0 +1,177 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  customcommands.tex -- Zusatzpakete und eigene Befehle
+%
+%  Arbeitsteilung der Vorlage:
+%    structure_document.tex  Seitenlayout, Schriften, Ueberschriften, Boxen
+%    customcommands.tex      dieses File: Komfortpakete und eigene Makros
+%    acronyms.tex            Glossar- und Abkuerzungseintraege
+%
+%  ACHTUNG: Diese Datei wird NACH structure_document.tex eingebunden und
+%  setzt Definitionen von dort voraus -- insbesondere \avantfont (Schrift der
+%  Titelseite) und die Farbe ThemeColor.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%==============================================================================
+%  1. PAKETE
+%==============================================================================
+
+%--- Grafiken -----------------------------------------------------------------
+\usepackage{graphicx}
+\graphicspath{{../Pictures/}} % alle Bilder liegen hier; Angabe im Text ohne "Pictures/"
+\usepackage{tikz}          % Titelseite, Kapitelkoepfe, Boxen
+\usepackage{etoolbox}      % robuste Tests wie \ifdefempty (s. Titelseite)
+
+%--- Listen und Tabellen ------------------------------------------------------
+\usepackage{enumitem}      % Listen anpassbar
+\setlist{nolistsep}        % kompaktere Abstaende in itemize/enumerate
+\usepackage{booktabs}      % \toprule, \midrule, \bottomrule statt \hline
+
+%--- Gleitobjekte -------------------------------------------------------------
+% Zwingt Abbildungen und Tabellen, vor dem naechsten \section zu erscheinen.
+% Wirkt nicht auf \subsection -- dort bei Bedarf \FloatBarrier von Hand setzen.
+\usepackage[section]{placeins}
+
+%--- Nur fuer die Beispielkapitel ---------------------------------------------
+% \lipsum erzeugt Blindtext. Fuer die Abgabe-/Release-Version kann diese Zeile zusammen mit Document/99_example.tex entfernt werden.
+\usepackage{lipsum}
+
+%==============================================================================
+%  2. ABBILDUNGEN
+%==============================================================================
+
+%------------------------------------------------------------------------------
+%  \ofig -- "One FIGure": Abbildung mit einem Bild
+%------------------------------------------------------------------------------
+%  Nutzung:
+%    \ofig{Bildunterschrift}{dateiname}{breite}
+%    \ofig[eigenesLabel]{Bildunterschrift}{dateiname}{breite}
+%
+%  Verweis darauf:  \ref{fig:dateiname}  bzw.  \ref{fig:eigenesLabel}
+%
+%  Der Dateiname wird ohne Endung und ohne "Pictures/" angegeben.
+%  Breite z.B. \linewidth, 0.6\linewidth, 8cm.
+%
+%  Ohne optionales Label wird der Dateiname als Label benutzt. Das ist bequem,
+%  geht aber schief, sobald der Dateiname Unterstriche oder Punkte enthaelt --
+%  dann das optionale Argument verwenden.
+%------------------------------------------------------------------------------
+\NewDocumentCommand{\ofig}{o m m m}{%
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=#4]{#3}%
+		\caption{#2}%
+		\IfValueTF{#1}{\label{fig:#1}}{\label{fig:#3}}%
+	\end{figure}%
+}
+
+%------------------------------------------------------------------------------
+%  \pfig -- "Placeholder FIGure": Abbildung mit dem Platzhalterbild
+%------------------------------------------------------------------------------
+%  Nutzung:  \pfig{Bildunterschrift}
+%  Praktisch, solange das echte Bild noch fehlt, damit Umbruch und
+%  Nummerierung schon stimmen.
+%------------------------------------------------------------------------------
+\NewDocumentCommand{\pfig}{o m}{%
+	\IfValueTF{#1}{\ofig[#1]{#2}{placeholder}{\linewidth}}%
+	              {\ofig{#2}{placeholder}{\linewidth}}%
+}
+
+
+%==============================================================================
+%  3. TITELSEITE
+%==============================================================================
+
+%------------------------------------------------------------------------------
+%  Stellschrauben der Titelseite
+%------------------------------------------------------------------------------
+%  Diese drei Werte steuern das Layout. Die Bildhoehe wird daraus berechnet,
+%  damit die Titelseite auch bei anderem Papierformat als A4 stimmt:
+%  Die Oberkante des Bildes liegt bei 3/5 der Seitenhoehe, der farbige Balken
+%  steht darunter am Seitenfuss.
+%------------------------------------------------------------------------------
+\newcommand{\hkaCoverImage}{cover_image.jpg} % leer lassen => kein Titelbild
+
+\newlength{\hkaColorBlockHeight}
+\setlength{\hkaColorBlockHeight}{3cm}        % Hoehe des farbigen Balkens unten
+
+\newlength{\hkaCoverImageHeight}
+\setlength{\hkaCoverImageHeight}{\dimexpr 0.6\paperheight - \hkaColorBlockHeight\relax}
+% Bei A4: 0.6 * 29.7cm = 17.82cm, minus 3cm Balken = 14.82cm.
+
+%------------------------------------------------------------------------------
+%  \createTikZTitlePage -- baut die Titelseite auf
+%------------------------------------------------------------------------------
+%  Nutzung:
+%    \createTikZTitlePage{Fakultaet}{Titel}{Autor(en)}
+%
+%  Der Fakultaetsname darf mit \\ umgebrochen werden.
+%  Die Farbe kommt aus ThemeColor, wird also in document.tex festgelegt.
+%------------------------------------------------------------------------------
+\NewDocumentCommand{\createTikZTitlePage}{m m m}{%
+	\begingroup
+	\thispagestyle{empty} % keine Kopf-/Fusszeile auf der Titelseite
+	\begin{tikzpicture}[remember picture,overlay]
+
+	%--- Ankerpunkte (absolut auf der Seite) --------------------------------
+		\coordinate (UoAS)         at ($ (current page.north west) + (2,-2) $);
+		\coordinate (Faculty)      at ($ (UoAS) + (0,-2) $);
+		\coordinate (Title)        at ($ (current page.north west) + (2,-11.5) $);
+		\coordinate (Authors)      at ($ (current page.south west) + (2,1.5) $);
+		\coordinate (BackgroundPic) at ($ (current page.south) + (0,\hkaColorBlockHeight) $);
+		% Ankerpunkte des "+|KA"-Logos
+		\coordinate (H) at ($ (current page.north east) + (8,-0.8) $);
+		\coordinate (K) at ($ (H) + (0,-18) $);
+		\coordinate (A) at ($ (K) + (0,-8.6) $);
+
+	%--- Titelbild ----------------------------------------------------------
+	% Ist \hkaCoverImage leer, bleibt die Flaeche frei -- so laesst sich die
+	% Vorlage auch ohne mitgeliefertes Bild uebersetzen.
+		\ifdefempty{\hkaCoverImage}{}{%
+			\node[above, inner sep=0pt] (Hinterlegbild) at (BackgroundPic)
+				{\includegraphics[height=\hkaCoverImageHeight]{\hkaCoverImage}};%
+		}
+
+	%--- Farbiger Balken am Seitenfuss --------------------------------------
+		\path[fill=ThemeColor] (current page.south west)
+			rectangle ($ (current page.south east) + (0,\hkaColorBlockHeight) $);
+
+	%--- Textblöcke ---------------------------------------------------------
+		% Hochschule
+		\node[text width = 10cm, ThemeColor, below right] at (UoAS)
+			{\avantfont{\textbf{Hochschule Karlsruhe}}\\
+			 \avantfont{University of}\\
+			 \avantfont{Applied Sciences}};
+		% Fakultät
+		\node[text width = 10cm, ThemeColor, below right] at (Faculty)
+			{\avantfont{Fakultät für}\\ \avantfont{\textbf{#1}}};
+		% Titel (und ggf. Untertitel)
+		\node[text width = 10cm, ThemeColor, above right] at (Title) {#2};
+		% Autor(en) -- steht im farbigen Balken, daher weiß
+		\node[text width = 10cm, white, right] at (Authors) {{\large #3}};
+
+	%--- Logo "+|KA" --------------------------------------------------------
+	% Als TikZ-Pfade gezeichnet, damit das Logo scharf und in ThemeColor
+	% bleibt. "+(x,y)" ist relativ zum zuletzt gesetzten Ankerpunkt, ohne
+	% diesen zu verschieben.
+		\path (H) [fill=ThemeColor, scale = 0.45, rounded corners = 1]
+			+(0,-2.95) -- +(3,-2.95) -- +(3,0) -- +(4.2,0) -- +(4.2,-2.95)
+			-- +(7.2,-2.95) -- +(7.2,-3.95) -- +(4.2,-3.95) -- +(4.2,-6.9)
+			-- +(3,-6.9) -- +(3,-3.95) -- +(0,-3.95) -- cycle;
+		\path (H) [fill=ThemeColor, scale = 0.45, rounded corners = 1]
+			+(7.8,0) -- +(9,0) -- +(9,-6.9) -- +(7.8,-6.9) -- cycle;
+		\path (K) [fill=ThemeColor, scale = 0.45, rounded corners = 1]
+			+(3,0) -- +(4.2,0) -- +(4.2,-2.8) -- +(9,0) -- +(9,-1.3)
+			-- +(5.2,-3.45) -- +(9,-5.6) -- +(9,-6.9) -- +(4.2,-4.1)
+			-- +(4.2,-6.9) -- +(3,-6.9) -- cycle;
+		\path (A) [fill=ThemeColor, scale = 0.45, rounded corners = 1]
+			+(6,0) -- +(6.65,0) -- +(10.05,-6.9) -- +(8.75,-6.9) -- +(6,-1.3)
+			-- +(4.8,-3.7) -- +(7.52,-3.7) -- +(8.85,-4.8) -- +(4.3,-4.8)
+			-- +(3.25,-6.9) -- +(1.95,-6.9) -- +(5.35,0) -- cycle;
+
+	\end{tikzpicture}%
+	\vfill
+	\endgroup
+}

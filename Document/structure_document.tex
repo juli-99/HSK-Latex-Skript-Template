@@ -1,22 +1,33 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% The Legrand Orange Book
-% Structural Definitions File
-% Version 2.1 (26/09/2018)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Original author:
-% Mathias Legrand (legrand.mathias@gmail.com) with modifications by:
-% Vel (vel@latextemplates.com)
-% 
-% This file was downloaded from:
-% http://www.LaTeXTemplates.com
+%  structure_document.tex -- Seitenlayout, Schriften, Ueberschriften, Boxen
 %
-% License:
-% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%  Arbeitsteilung der Vorlage:
+%    document.tex            Metadaten, Fakultaetsfarbe, Reihenfolge der Teile
+%    structure_document.tex  diese Datei: das gesamte Layout
+%    customcommands.tex      Komfortpakete und eigene Makros (\ofig, Titelseite)
+%    acronyms.tex            Glossar- und Abkuerzungseintraege
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Diese Datei wird als ERSTES eingebunden. Die Farbe ThemeColor muss davor
+%  in document.tex definiert sein -- sie wird hier bereits in der Praeambel
+%  verwendet.
+%
+%  Wer nur Inhalte schreibt, muss hier nichts aendern.
+%
+%  ---------------------------------------------------------------------------
+%  Basiert auf: The Legrand Orange Book, Structural Definitions File
+%  Version 2.1 (26/09/2018)
+%  Original: Mathias Legrand (legrand.mathias@gmail.com),
+%            modifiziert von Vel (vel@latextemplates.com)
+%            http://www.LaTeXTemplates.com
+%  Lizenz:   CC BY-NC-SA 3.0
+%            http://creativecommons.org/licenses/by-nc-sa/3.0/
+%  ---------------------------------------------------------------------------
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %----------------------------------------------------------------------------------------
-%	MARGINS
+%	SEITENRAENDER UND SATZSPIEGEL
 %----------------------------------------------------------------------------------------
 
 \usepackage{geometry} % Required for adjusting page dimensions and margins
@@ -33,17 +44,27 @@
 	%showframe, % Uncomment to show how the type block is set on the page
 }
 
-\setlength{\parindent}{0pt} % Kein Einzug für die erste Zeile jedes Absatzes
+% Absatztrennung: Die Vorlage setzt \parindent auf 0, also duerfen Absaetze
+% nicht auch noch abstandslos aneinanderstossen -- sonst sind ihre Grenzen im
+% Fliesstext unsichtbar.
+%
+% Bewusst KEIN \usepackage{parskip}: dessen parfill-Option veraendert
+% \parfillskip und loest dadurch im Inhaltsverzeichnis zwei Overfull-\hbox-
+% Warnungen in den farbigen TEIL-Bannern aus (optisch folgenlos, aber Laerm
+% im Log). Die beiden Laengen von Hand zu setzen genuegt hier vollauf.
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
 
 %----------------------------------------------------------------------------------------
-%	FONTS
+%	SCHRIFTEN UND SPRACHE
 %----------------------------------------------------------------------------------------
-\usepackage[T1]{fontenc} % Ensures proper hyphenation of special characters
-\usepackage[utf8]{inputenc} % Allows use of accented characters
-\usepackage[ngerman]{babel} % German language support
-\usepackage{csquotes} % Correct quotation marks in the respective language
+\usepackage[T1]{fontenc} % korrekte Trennung von Woertern mit Umlauten
+% inputenc entfaellt: UTF-8 ist seit 2018 LaTeX-Standard
+\usepackage[ngerman]{babel} % deutsche Trennmuster und Bezeichnungen
+% Fuer ein mehrsprachiges Dokument: \usepackage[english,ngerman]{babel}
+\usepackage{csquotes} % sprachrichtige Anfuehrungszeichen, von biblatex gefordert
 
-\usepackage{avant} % Use the Avantgarde font for headings
+\usepackage{avant} % Avantgarde -- nur fuer \avantfont auf der Titelseite
 \newcommand*{\avantstyle}{\fontfamily{pag}\selectfont}
 \DeclareTextFontCommand{\avantfont}{\avantstyle}
 
@@ -52,36 +73,52 @@
 \renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
 %\usepackage{mathptmx} % Use the Adobe Times Roman as the default text font together with math symbols from the Sym­bol, Chancery and Com­puter Modern fonts
 
-\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+\usepackage{microtype} % feine Optimierung von Laufweite und Randausgleich
 
 %----------------------------------------------------------------------------------------
-%	BIBLIOGRAPHY AND INDEX
+%	LITERATURVERZEICHNIS UND INDEX
 %----------------------------------------------------------------------------------------
 
-\usepackage[style=numeric,citestyle=numeric,sorting=nyt,sortcites=true,autopunct=true,hyperref=true,abbreviate=false,backref=true,backend=biber]{biblatex}
-\addbibresource{bibliography.bib} % BibTeX bibliography file
+% sorting=none = Reihenfolge des ersten Zitierens, bei numerischen Stilen ueblich.
+\usepackage[style=numeric,citestyle=numeric,sorting=none,sortcites=true,autopunct=true,hyperref=true,abbreviate=false,backref=true,backend=bibtex]{biblatex}
+\addbibresource{../bibliography.bib} % Datei mit den Literaturangaben
 \defbibheading{bibempty}{}
 
-\usepackage{calc} % For simpler calculation - used for spacing the index letter headings correctly
-\usepackage{makeidx} % Required to make an index
-\makeindex % Tells LaTeX to create the files required for indexing
+% FIX: verhindert zerhackte URLs wie "https : / / www . h - ka . de"
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+\setcounter{biburlnumpenalty}{9000}
+
+\usepackage{etoolbox} % robuste Tests wie \ifdefempty
+\usepackage{calc} % erlaubt Rechnen in Laengenangaben (Index-Buchstabenkoepfe)
+\usepackage{makeidx} % Stichwortverzeichnis
+\makeindex % legt die fuer den Index noetigen Hilfsdateien an
 
 %----------------------------------------------------------------------------------------
-% ACRONYMS AND GLOSSARY
+% ABKUERZUNGSVERZEICHNIS UND GLOSSAR
 %----------------------------------------------------------------------------------------
-\usepackage[]{hyperref}
+% hyperref wird weiter unten im Abschnitt LINKS geladen (muss vor glossaries stehen)
+\usepackage{hyperref}
 \usepackage[acronym]{glossaries}
 \makeglossaries
 
 %----------------------------------------------------------------------------------------
-%	DIGITAL LOGIC & ELECTRONICS & PHYSICAL UNITS
+%	SCHALTPLAENE UND PHYSIKALISCHE EINHEITEN
 %----------------------------------------------------------------------------------------
 
 \usepackage[european, RPvoltages]{circuitikz}
+
 \usepackage{siunitx}
+% Deutsche Zahlkonventionen: Dezimalkomma statt Punkt (DIN 1333), schmales
+% Leerzeichen als Tausendertrenner. Fuer ein englisches Dokument auf
+% locale=US umstellen.
+\sisetup{
+  locale = DE,
+  per-mode = symbol,
+}
 
 %----------------------------------------------------------------------------------------
-%	MAIN TABLE OF CONTENTS
+%	INHALTSVERZEICHNIS
 %----------------------------------------------------------------------------------------
 
 \usepackage{titletoc} % Required for manipulating the table of contents
@@ -137,8 +174,19 @@
 	{\ \titlerule*[.5pc]{.}\;\thecontentspage} % Formatting of the filler to the right of the heading and the page number
 
 %----------------------------------------------------------------------------------------
-%	MINI TABLE OF CONTENTS IN PART HEADS
+%	MINI-INHALTSVERZEICHNIS AUF DEN TEIL-SEITEN
 %----------------------------------------------------------------------------------------
+
+% Frueher stand hier \absolutetextcolor -- ein Hilfsbefehl, der ein bereits
+% im Eintragstext stehendes \textcolor neutralisieren sollte. Er wird nicht
+% mehr gebraucht: Die Verzeichnisse am Dokumentende tragen ihre Farbe jetzt
+% ueber das numberless-Format von \titlecontents, nicht ueber ein \textcolor
+% im \addcontentsline. Siehe Kommentar in document.tex.
+%
+% (Der alte Befehl war zudem fehleranfaellig: sein \renewcommand\textcolor
+%  gab NICHTS aus statt den Text durchzureichen. Ob das auffiel, hing davon
+%  ab, ob titletoc den Eintragstext als Gruppe oder als lose Tokens
+%  uebergibt -- also von der hyperref- und titletoc-Version.)
 
 % To override the existing colorred text
 \newcommand{\absolutetextcolor}[2]{%
@@ -172,10 +220,10 @@
 	{}
 
 %----------------------------------------------------------------------------------------
-%	HEADERS AND FOOTERS
+%	KOPF- UND FUSSZEILEN
 %----------------------------------------------------------------------------------------
 
-\usepackage{fancyhdr} % Required for header and footer configuration
+\usepackage{fancyhdr} % frei konfigurierbare Kopf- und Fusszeilen
 
 \pagestyle{fancy} % Enable the custom headers and footers
 
@@ -205,10 +253,17 @@
 \fi}
 
 %----------------------------------------------------------------------------------------
-%	THEOREM STYLES
+%	THEOREM-STILE (SATZ, DEFINITION, BEISPIEL, ...)
 %----------------------------------------------------------------------------------------
 
 \usepackage{amsmath,amsfonts,amssymb,amsthm} % For math equations, theorems, symbols, etc
+
+% Intelligente Querverweise: \cref{fig:xyz} schreibt "Abb. 1.2",
+% \cref{ch:einleitung} schreibt "Kapitel 1" -- das Wort davor entfaellt also.
+% WICHTIG: cleveref muss hier stehen, also nach amsthm und nach hyperref,
+% aber VOR den \newtheorem-Definitionen weiter unten. Wird es spaeter
+% geladen, liefert \cref fuer Saetze und Definitionen nur "??".
+\usepackage[ngerman,capitalise]{cleveref}
 
 \newcommand{\intoo}[2]{\mathopen{]}#1\,;#2\mathclose{[}}
 \newcommand{\ud}{\mathop{\mathrm{{}d}}\mathopen{}}
@@ -263,33 +318,23 @@
 \thmnote{\nobreakspace\the\thm@notefont\sffamily\bfseries\color{black}---\nobreakspace#3.}} % Optional theorem note
 \makeatother
 
-% Defines the theorem text style for each type of theorem to one of the three styles above
-%\newcounter{dummy} 
-%\numberwithin{dummy}{section}
-%\theoremstyle{ThemeColornumbox}
-%\newtheorem{theoremeT}[dummy]{Theorem}
-%\newtheorem{problem}{Problem}[chapter]
-%\newtheorem{exerciseT}{Exercise}[chapter]
-%\theoremstyle{blacknumex}
-%\newtheorem{exampleT}{Example}[chapter]
-%\theoremstyle{blacknumbox}
-%\newtheorem{vocabulary}{Vocabulary}[chapter]
-%\newtheorem{definitionT}{Definition}[section]
-%\newtheorem{corollaryT}[dummy]{Corollary}
-%\theoremstyle{ThemeColornum}
-%\newtheorem{proposition}[dummy]{Proposition}
+% Zuordnung: jede Theorem-Umgebung bekommt einen Textstil von oben und
+% weiter unten eine farbige Box. Der Zaehler "dummy" wird von Satz, Folgerung
+% und These gemeinsam benutzt, damit diese fortlaufend zusammen nummerieren.
+%
+% (Die frueher hier stehende englische Variante dieses Blocks war vollstaendig
+%  auskommentiert und damit wirkungslos -- sie wurde entfernt.)
 
-% Deutsche Begriffe fuer Theorem-Boxen
 \newcounter{dummy} 
 \numberwithin{dummy}{section}
 \theoremstyle{ThemeColornumbox}
 \newtheorem{theoremeT}[dummy]{Satz}
 \newtheorem{problem}{Problem}[chapter]
-\newtheorem{exerciseT}{\"Ubung}[chapter]
+\newtheorem{exerciseT}{Übung}[chapter]
 \theoremstyle{blacknumex}
 \newtheorem{exampleT}{Beispiel}[chapter]
 \theoremstyle{blacknumbox}
-\newtheorem{vocabulary}{W\"orterverzeichnis }[chapter]
+\newtheorem{vocabulary}{Wörterverzeichnis}[chapter]
 \newtheorem{definitionT}{Definition}[section]
 \newtheorem{corollaryT}[dummy]{Folgerung}
 \theoremstyle{ThemeColornum}
@@ -297,7 +342,7 @@
 
 
 %----------------------------------------------------------------------------------------
-%	DEFINITION OF COLORED BOXES
+%	FARBIGE BOXEN UM DIE THEOREM-UMGEBUNGEN
 %----------------------------------------------------------------------------------------
 
 \RequirePackage[framemethod=default]{mdframed} % Required for creating the theorem, definition, exercise and corollary boxes
@@ -372,7 +417,7 @@ innerbottommargin=5pt]{cBox}
 \newenvironment{corollary}{\begin{cBox}\begin{corollaryT}}{\end{corollaryT}\end{cBox}}	
 
 %----------------------------------------------------------------------------------------
-%	REMARK ENVIRONMENT
+%	UMGEBUNG FUER BEMERKUNGEN
 %----------------------------------------------------------------------------------------
 
 \newenvironment{remark}{\par\vspace{10pt}\small % Vertical white space above the remark and smaller font size
@@ -384,7 +429,7 @@ innerbottommargin=5pt]{cBox}
 \advance\baselineskip -1pt}{\end{list}\vskip5pt} % Tighter line spacing and white space after remark
 
 %----------------------------------------------------------------------------------------
-%	SECTION NUMBERING IN THE MARGIN
+%	ABSCHNITTSNUMMERN IM SEITENRAND
 %----------------------------------------------------------------------------------------
 
 \makeatletter
@@ -407,7 +452,7 @@ innerbottommargin=5pt]{cBox}
 {\normalfont\small\sffamily\bfseries}}
 
 %----------------------------------------------------------------------------------------
-%	PART HEADINGS
+%	TEIL-SEITEN
 %----------------------------------------------------------------------------------------
 
 % Numbered part in the table of contents
@@ -476,7 +521,7 @@ innerbottommargin=5pt]{cBox}
 \fi}
 
 %----------------------------------------------------------------------------------------
-%	CHAPTER HEADINGS
+%	KAPITELKOEPFE
 %----------------------------------------------------------------------------------------
 
 % A switch to conditionally include a picture, implemented by Christian Hupfer
@@ -562,19 +607,21 @@ innerbottommargin=5pt]{cBox}
 \makeatother
 
 %----------------------------------------------------------------------------------------
-%	PDF-Version and Compression
+%	PDF-VERSION UND KOMPRIMIERUNG
 %----------------------------------------------------------------------------------------
 
-\pdfminorversion=7
-\pdfobjcompresslevel=3
-\pdfcompresslevel=9
+% FIX: \pdfminorversion u.a. sind pdfTeX-Primitive und brechen unter LuaLaTeX ab.
+\ifdefined\pdfminorversion
+  \pdfminorversion=7
+  \pdfobjcompresslevel=3
+  \pdfcompresslevel=9
+\fi
 
 %----------------------------------------------------------------------------------------
-%	LINKS
+%	LINKS UND PDF-LESEZEICHEN
 %----------------------------------------------------------------------------------------
 
-\usepackage{hyperref}
-\hypersetup{hidelinks, colorlinks=false,breaklinks=true,urlcolor=ThemeColor,bookmarksopen=false}
+\hypersetup{hidelinks, colorlinks=false,  breaklinks=true,  linkcolor=ThemeColor,  citecolor=ThemeColor,  urlcolor=ThemeColor,  bookmarksopen=false,}
 
 \usepackage{bookmark}
 \bookmarksetup{

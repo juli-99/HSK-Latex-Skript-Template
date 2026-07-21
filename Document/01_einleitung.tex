@@ -1,21 +1,70 @@
-%----------------------------------------------------------------------------------------
-%	CHAPTER 1
-%----------------------------------------------------------------------------------------
-\chapterimage{Pictures/chapter_image_1.jpg} % Chapter heading image
-%----------------------------------------------------------------------------------------
-\chapter{Einleitung}\index{chp\_Einleitung}
-%----------------------------------------------------------------------------------------
-\section{Eine Überschrift mit Ümläüten - öh?}
-Lorem ipsum dolor sit "`amet"', consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Kapitel 1 -- Einleitung
 %
+%  Dieses Kapitel ist als Geruest gedacht: Die Zwischenueberschriften decken
+%  ab, was eine Einleitung ueblicherweise leistet. Text ersetzen, nicht
+%  benoetigte Abschnitte loeschen.
 %
-%
-\subsection{subtitle}
-Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. 
+%  Bilder liegen in Pictures/ und werden OHNE diesen Ordnernamen und OHNE
+%  Dateiendung angegeben -- \graphicspath erledigt den Rest.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. 
-%
-%
-%
-\subsection{subtitle}
-Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.
+\chapterimage{chapter_image_1.jpg} % Bild im Kapitelkopf (Seitenverhaeltnis 2:1)
+
+\chapter{Einleitung}
+\label{ch:einleitung}
+\index{Einleitung}
+
+
+%==============================================================================
+\section{Motivation}
+\label{sec:motivation}
+%==============================================================================
+
+Hier steht, warum das Thema überhaupt behandelt wird: das Problem, die
+Ausgangslage, der Anlass. Anführungszeichen setzt man mit \enquote{enquote},
+dann stimmen sie automatisch in jeder Sprache -- verschachtelt funktioniert
+das ebenfalls, etwa \enquote{ein Zitat mit \enquote{Zitat darin}}.
+
+Zahlen mit Einheiten gehören in \verb|\SI|, damit Abstand und Dezimalzeichen
+einheitlich bleiben: Die Messung ergab \SI{12345.67}{\metre\per\second} bei
+einer Spannung von \SI{3.3}{\volt}. Im Quelltext schreibt man dabei immer
+einen Punkt -- die Ausgabe als Komma erledigt \texttt{siunitx}.
+
+\lipsum[1] % Blindtext -- vor der Abgabe entfernen
+
+
+%==============================================================================
+\section{Zielsetzung}
+\label{sec:zielsetzung}
+%==============================================================================
+
+Was soll am Ende erreicht sein? Idealerweise so konkret, dass sich im Fazit
+überprüfen lässt, ob es erreicht wurde.
+
+Auf andere Stellen verweist man mit \verb|\cref|. Das Wort davor liefert der
+Befehl bereits mit -- man schreibt also nur \verb|\cref{ch:einleitung}| und
+erhält \cref{ch:einleitung}. Ein zusätzliches \enquote{Kapitel} davor wäre
+doppelt. Für Abschnitte, Abbildungen und Tabellen gilt dasselbe:
+\cref{sec:motivation} und \cref{fig:beispielbild}.
+
+\ofig[beispielbild]{Ein Platzhalterbild. Die Bildunterschrift steht bei
+Abbildungen unter dem Bild und endet ohne Punkt}{placeholder}{0.6\linewidth}
+
+Abkürzungen werden bei der ersten Verwendung automatisch ausgeschrieben:
+\acrfull{gcd}. Ab dann genügt die Kurzform \acrshort{gcd}. Das
+Abkürzungsverzeichnis am Ende des Dokuments füllt sich von selbst -- neue
+Einträge kommen in \texttt{acronyms.tex}.
+
+
+%==============================================================================
+\section{Aufbau der Arbeit}
+\label{sec:aufbau}
+%==============================================================================
+
+Ein kurzer Wegweiser durch die folgenden Kapitel. Quellen werden mit
+\verb|\cite| zitiert \cite{book_key}; mit Seitenangabe sieht das so
+aus \cite[162]{book_key}. Die Einträge dafür stehen in der Datei
+\texttt{bibliography.bib}.
+
+\lipsum[2] % Blindtext -- vor der Abgabe entfernen

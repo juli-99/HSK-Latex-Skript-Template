@@ -1,229 +1,329 @@
-\chapter{Formatierungen und Templates}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Formatbeispiele -- Schaufenster aller Umgebungen der Vorlage
+%
+%  Dieses Kapitel dient als Nachschlagewerk beim Schreiben und gehoert NICHT
+%  in die Abgabe. Vor der finalen Version einfach den zugehoerigen \part und
+%  \input in document.tex loeschen.
+%
+%  Die Namen der Umgebungen sind englisch (\begin{theorem}), die Ausgabe ist
+%  deutsch (\enquote{Satz}) -- festgelegt in structure_document.tex.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Table}\index{Table}
+\chapter{Formatierungen und Vorlagen}
+\label{ch:formatbeispiele}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{l l l}
-\toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
-\bottomrule
-\end{tabular}
-\caption{Table caption}
-\label{tab:example} % Unique label used for referencing the table in-text
-%\addcontentsline{toc}{table}{Table \ref{tab:example}} % Uncomment to add the table to the table of contents
+
+%==============================================================================
+\section{Tabellen}
+\index{Tabelle}
+%==============================================================================
+
+Tabellen bekommen ihre Beschriftung \emph{über} den Inhalt. Senkrechte Linien
+sind unüblich; \texttt{booktabs} liefert mit \verb|\toprule|, \verb|\midrule|
+und \verb|\bottomrule| die passenden waagerechten.
+
+Für Zahlenspalten lohnt sich der Spaltentyp \texttt{S} aus \texttt{siunitx}:
+Er richtet am Dezimalzeichen aus und setzt automatisch das deutsche Komma.
+Standardmäßig gruppiert \texttt{siunitx} auch die Nachkommastellen in
+Dreierblöcken (\enquote{0,000\,326\,2}). Wer das nicht möchte, ergänzt
+\texttt{group-digits=integer} -- entweder je Spalte wie unten oder global
+über \verb|\sisetup| in \texttt{structure\_document.tex}.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Tabellenbeschriftung -- steht oben und endet ohne Punkt}
+	\label{tab:beispiel}
+	\begin{tabular}{l S[table-format=1.7, group-digits=integer] S[table-format=1.3]}
+		\toprule
+		\textbf{Behandlung} & {\textbf{Messwert 1}} & {\textbf{Messwert 2}} \\
+		\midrule
+		Behandlung 1 & 0.0003262 & 0.562 \\
+		Behandlung 2 & 0.0015681 & 0.910 \\
+		Behandlung 3 & 0.0009271 & 0.296 \\
+		\bottomrule
+	\end{tabular}
 \end{table}
 
-Referencing Table \ref{tab:example} in-text automatically.
+Verwiesen wird mit \verb|\cref|: \cref{tab:beispiel} zeigt das Ergebnis.
 
 
-%------------------------------------------------
+%==============================================================================
+\section{Abbildungen}
+\index{Abbildung}
+%==============================================================================
 
-\section{Citation}\index{Citation}
+Abbildungen bekommen ihre Beschriftung \emph{unter} das Bild. Statt einer
+kompletten \texttt{figure}-Umgebung genügt der Kurzbefehl \verb|\ofig| aus
+\texttt{customcommands.tex}:
 
-This statement requires citation \cite{article_key}; this one is more specific \cite[162]{book_key}.
+\begin{verbatim}
+\ofig[label]{Bildunterschrift}{dateiname}{breite}
+\end{verbatim}
 
-%------------------------------------------------
+Der Dateiname steht ohne Ordner und ohne Endung. Ohne das optionale Label wird
+der Dateiname als Label benutzt -- was schiefgeht, sobald zwei Abbildungen
+dasselbe Bild verwenden. Deshalb hier ein eigenes Label.
 
-\section{Lists}\index{Lists}
+\ofig[beispielabbildung]{Abbildungsbeschriftung -- steht unten und endet ohne
+Punkt}{placeholder}{0.5\linewidth}
 
-Lists are useful to present information in a concise and/or ordered way\footnote{Footnote example...}.
+%\cref{fig:beispielabbildung} wird damit automatisch nummeriert und verlinkt.
 
-\subsection{Numbered List}\index{Lists!Numbered List}
+%==============================================================================
+\section{Schaltpläne}
+\index{Schaltplan}
+%==============================================================================
+
+Über \texttt{circuitikz} lassen sich Schaltpläne direkt im Quelltext
+zeichnen -- sie bleiben dadurch beliebig skalierbar und passen zur Schrift
+des Dokuments.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{circuitikz}[scale=0.9, transform shape]
+		\draw (0,0) to[V, l=$U_\mathrm{e}$] (0,4);
+		\draw (0,4) to[R, l=$R_1$, *-*] (4,4);
+		\draw (4,4) to[R, l=$R_2$] (4,0);
+		\draw (4,0) -- (0,0);
+		\draw (4,4) to[short, -o] (5.5,4) node[right] {$U_\mathrm{a}$};
+		\draw (4,0) to[short, -o] (5.5,0);
+		\draw (0,0) node[ground]{};
+	\end{circuitikz}
+	\caption{Unbelasteter Spannungsteiler, gezeichnet mit \texttt{circuitikz}}
+	\label{fig:spannungsteiler}
+\end{figure}
+
+Für \cref{fig:spannungsteiler} gilt
+$U_\mathrm{a} = U_\mathrm{e} \cdot \frac{R_2}{R_1 + R_2}$.
+
+
+%==============================================================================
+\section{Quellenangaben}
+\index{Zitieren}
+%==============================================================================
+
+Diese Aussage benötigt eine Quelle \cite{article_key}; diese hier ist
+konkreter und nennt die Seite \cite[162]{book_key}.
+
+
+%==============================================================================
+\section{Listen}
+\index{Liste}
+%==============================================================================
+
+Listen ordnen Informationen knapp und übersichtlich\footnote{So sieht eine
+Fußnote aus.}.
+
+\subsection{Nummerierte Liste}
+\index{Liste!nummeriert}
 
 \begin{enumerate}
-\item The first item
-\item The second item
-\item The third item
+	\item Erster Punkt
+	\item Zweiter Punkt
+	\item Dritter Punkt
 \end{enumerate}
 
-\subsection{Bullet Points}\index{Lists!Bullet Points}
+\subsection{Aufzählung}
+\index{Liste!Aufzählung}
 
 \begin{itemize}
-\item The first item
-\item The second item
-\item The third item
+	\item Erster Punkt
+	\item Zweiter Punkt
+	\item Dritter Punkt
 \end{itemize}
 
-\subsection{Descriptions and Definitions}\index{Lists!Descriptions and Definitions}
+\subsection{Beschreibungen}
+\index{Liste!Beschreibung}
 
 \begin{description}
-\item[Name] Description
-\item[Word] Definition
-\item[Comment] Elaboration
+	\item[Begriff] Erläuterung dazu
+	\item[Wort] Definition dazu
+	\item[Anmerkung] Ergänzung dazu
 \end{description}
 
-This is an example of theorems.
 
-\subsection{Several equations}\index{Theorems!Several Equations}
-This is a theorem consisting of several equations.
+%==============================================================================
+\section{Sätze}
+\index{Satz}
+%==============================================================================
 
-\begin{theorem}[Name of the theorem]
-In $E=\mathbb{R}^n$ all norms are equivalent. It has the properties:
-\begin{align}
-& \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
-&  ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
-\end{align}
+% HINWEIS: Diese Section fehlte urspruenglich. Die beiden folgenden
+% Unterabschnitte hingen dadurch faelschlich unter \section{Listen}, obwohl
+% die Index-Eintraege bereits eine eigene Section voraussetzten.
+
+\subsection{Mehrere Gleichungen}
+\index{Satz!mehrere Gleichungen}
+
+\begin{theorem}[Name des Satzes]
+	In $E=\mathbb{R}^n$ sind alle Normen äquivalent. Es gilt:
+	\begin{align}
+		& \big| \|\mathbf{x}\| - \|\mathbf{y}\| \big| \leq \|\mathbf{x}-\mathbf{y}\| \\
+		& \Big\|\sum_{i=1}^n \mathbf{x}_i\Big\| \leq \sum_{i=1}^n \|\mathbf{x}_i\|
+		  \quad\text{mit $n$ endlich}
+	\end{align}
 \end{theorem}
 
-\subsection{Single Line}\index{Theorems!Single Line}
-This is a theorem consisting of just one line.
+\subsection{Einzeilig}
+\index{Satz!einzeilig}
 
 \begin{theorem}
-A set $\mathcal{D}(G)$ in dense in $L^2(G)$, $|\cdot|_0$. 
+	Eine Menge $\mathcal{D}(G)$ liegt dicht in $L^2(G)$, $|\cdot|_0$.
 \end{theorem}
 
-%------------------------------------------------
 
-\section{Definitions}\index{Definitions}
+%==============================================================================
+\section{Definitionen}
+\index{Definition}
+%==============================================================================
 
-This is an example of a definition. A definition could be mathematical or it could define a concept.
-
-\begin{definition}[Definition name]
-Given a vector space $E$, a norm on $E$ is an application, denoted $||\cdot||$, $E$ in $\mathbb{R}^+=[0,+\infty[$ such that:
-\begin{align}
-& ||\mathbf{x}||=0\ \Rightarrow\ \mathbf{x}=\mathbf{0}\\
-& ||\lambda \mathbf{x}||=|\lambda|\cdot ||\mathbf{x}||\\
-& ||\mathbf{x}+\mathbf{y}||\leq ||\mathbf{x}||+||\mathbf{y}||
-\end{align}
+\begin{definition}[Name der Definition]
+	Sei $E$ ein Vektorraum. Eine Norm auf $E$ ist eine Abbildung
+	$\|\cdot\|$ von $E$ nach $\mathbb{R}^+=[0,+\infty[$ mit:
+	\begin{align}
+		& \|\mathbf{x}\|=0 \ \Rightarrow\ \mathbf{x}=\mathbf{0} \\
+		& \|\lambda \mathbf{x}\| = |\lambda|\cdot\|\mathbf{x}\| \\
+		& \|\mathbf{x}+\mathbf{y}\| \leq \|\mathbf{x}\|+\|\mathbf{y}\|
+	\end{align}
 \end{definition}
 
-%------------------------------------------------
 
-\section{Notations}\index{Notations}
+%==============================================================================
+\section{Notationen}
+\index{Notation}
+%==============================================================================
 
 \begin{notation}
-Given an open subset $G$ of $\mathbb{R}^n$, the set of functions $\varphi$ are:
-\begin{enumerate}
-\item Bounded support $G$;
-\item Infinitely differentiable;
-\end{enumerate}
-a vector space is denoted by $\mathcal{D}(G)$. 
+	Sei $G$ eine offene Teilmenge von $\mathbb{R}^n$. Die Menge der
+	Funktionen $\varphi$ mit
+	\begin{enumerate}
+		\item beschränktem Träger $G$ und
+		\item beliebig oft differenzierbar
+	\end{enumerate}
+	bildet einen Vektorraum, bezeichnet mit $\mathcal{D}(G)$.
 \end{notation}
 
-%------------------------------------------------
 
-\section{Remarks}\index{Remarks}
-
-This is an example of a remark.
+%==============================================================================
+\section{Bemerkungen}
+\index{Bemerkung}
+%==============================================================================
 
 \begin{remark}
-The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
+	Die hier verwendeten Begriffe sind in der Mathematik gebräuchlich.
+	Vektorräume werden über dem Körper $\mathbb{K}=\mathbb{R}$ betrachtet;
+	die Eigenschaften lassen sich auf $\mathbb{K}=\mathbb{C}$ übertragen.
 \end{remark}
 
-%------------------------------------------------
 
-\section{Corollaries}\index{Corollaries}
+%==============================================================================
+\section{Folgerungen}
+\index{Folgerung}
+%==============================================================================
 
-This is an example of a corollary.
-
-\begin{corollary}[Corollary name]
-The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
+\begin{corollary}[Name der Folgerung]
+	Die hier verwendeten Begriffe sind in der Mathematik gebräuchlich.
+	Vektorräume werden über dem Körper $\mathbb{K}=\mathbb{R}$ betrachtet.
 \end{corollary}
 
-%------------------------------------------------
 
-\section{Propositions}\index{Propositions}
+%==============================================================================
+\section{Thesen}
+\index{These}
+%==============================================================================
 
-This is an example of propositions.
+\subsection{Mehrere Gleichungen}
+\index{These!mehrere Gleichungen}
 
-\subsection{Several equations}\index{Propositions!Several Equations}
-
-\begin{proposition}[Proposition name]
-It has the properties:
-\begin{align}
-& \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
-&  ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
-\end{align}
+\begin{proposition}[Name der These]
+	Es gilt:
+	\begin{align}
+		& \big| \|\mathbf{x}\| - \|\mathbf{y}\| \big| \leq \|\mathbf{x}-\mathbf{y}\| \\
+		& \Big\|\sum_{i=1}^n \mathbf{x}_i\Big\| \leq \sum_{i=1}^n \|\mathbf{x}_i\|
+		  \quad\text{mit $n$ endlich}
+	\end{align}
 \end{proposition}
 
-\subsection{Single Line}\index{Propositions!Single Line}
+\subsection{Einzeilig}
+\index{These!einzeilig}
 
-\begin{proposition} 
-Let $f,g\in L^2(G)$; if $\forall \varphi\in\mathcal{D}(G)$, $(f,\varphi)_0=(g,\varphi)_0$ then $f = g$. 
+\begin{proposition}
+	Seien $f,g\in L^2(G)$. Gilt $(f,\varphi)_0=(g,\varphi)_0$ für alle
+	$\varphi\in\mathcal{D}(G)$, so folgt $f=g$.
 \end{proposition}
 
-%------------------------------------------------
 
-\section{Examples}\index{Examples}
+%==============================================================================
+\section{Beispiele}
+\index{Beispiel}
+%==============================================================================
 
-This is an example of examples.
-
-\subsection{Equation and Text}\index{Examples!Equation and Text}
+\subsection{Gleichung mit Text}
+\index{Beispiel!Gleichung mit Text}
 
 \begin{example}
-Let $G=\{x\in\mathbb{R}^2:|x|<3\}$ and denoted by: $x^0=(1,1)$; consider the function:
-\begin{equation}
-f(x)=\left\{\begin{aligned} & \mathrm{e}^{|x|} & & \text{si $|x-x^0|\leq 1/2$}\\
-& 0 & & \text{si $|x-x^0|> 1/2$}\end{aligned}\right.
-\end{equation}
-The function $f$ has bounded support, we can take $A=\{x\in\mathbb{R}^2:|x-x^0|\leq 1/2+\epsilon\}$ for all $\epsilon\in\intoo{0}{5/2-\sqrt{2}}$.
+	Sei $G=\{x\in\mathbb{R}^2:|x|<3\}$ und $x^0=(1,1)$. Betrachte
+	\begin{equation}
+		f(x)=\left\{\begin{aligned}
+			& \mathrm{e}^{|x|} & & \text{falls $|x-x^0|\leq 1/2$}\\
+			& 0                & & \text{falls $|x-x^0| > 1/2$}
+		\end{aligned}\right.
+	\end{equation}
+	Die Funktion $f$ hat beschränkten Träger; man kann
+	$A=\{x\in\mathbb{R}^2:|x-x^0|\leq 1/2+\epsilon\}$ wählen für alle
+	$\epsilon\in\intoo{0}{5/2-\sqrt{2}}$.
 \end{example}
 
-\subsection{Paragraph of Text}\index{Examples!Paragraph of Text}
+\subsection{Reiner Textabsatz}
+\index{Beispiel!Textabsatz}
 
-\begin{example}[Example name]
-\lipsum[2]
+\begin{example}[Name des Beispiels]
+	\lipsum[2]
 \end{example}
 
-%------------------------------------------------
 
-\section{Exercises}\index{Exercises}
-
-This is an example of an exercise.
+%==============================================================================
+\section{Übungen}
+\index{Übung}
+%==============================================================================
 
 \begin{exercise}
-This is a good place to ask a question to test learning progress or further cement ideas into students' minds.
+	Hier lässt sich eine Frage stellen, mit der Studierende ihren Lernstand
+	überprüfen oder das Gelesene vertiefen können.
 \end{exercise}
 
-%------------------------------------------------
 
-\section{Problems}\index{Problems}
+%==============================================================================
+\section{Probleme}
+\index{Problem}
+%==============================================================================
 
 \begin{problem}
-What is the average airspeed velocity of an unladen swallow?
+	Wie hoch ist die durchschnittliche Fluggeschwindigkeit einer unbeladenen
+	Schwalbe?
 \end{problem}
 
-%------------------------------------------------
 
-\section{Vocabulary}\index{Vocabulary}
+%==============================================================================
+\section{Wörterverzeichnis}
+\index{Wörterverzeichnis}
+%==============================================================================
 
-Define a word to improve a students' vocabulary.
-
-\begin{vocabulary}[Word]
-Definition of word.
+\begin{vocabulary}[Wort]
+	Definition des Wortes.
 \end{vocabulary}
 
 
-%------------------------------------------------
+%==============================================================================
+\section{Glossar und Abkürzungen}
+\index{Glossar}
+%==============================================================================
 
-\section{Figure}\index{Figure}
+Einträge aus \texttt{acronyms.tex} werden über \verb|\gls| und \verb|\acr...|
+eingebunden und landen automatisch in den Verzeichnissen am Dokumentende.
 
-\begin{figure}[h]
-\centering\includegraphics[scale=0.5]{Pictures/placeholder.jpg}
-\caption{Figure caption}
-\label{fig:placeholder} % Unique label used for referencing the figure in-text
-%\addcontentsline{toc}{figure}{Figure \ref{fig:placeholder}} % Uncomment to add the figure to the table of contents
-\end{figure}
+Die Auszeichnungssprache \Gls{latexg} eignet sich besonders für Dokumente
+mit \gls{mathsg}.
 
-Referencing Figure \ref{fig:placeholder} in-text automatically.
-
-
-%------------------------------------------------
-
-\section{Glossary and Acronyms}
-
-%Examples on using the glossaries package
-
-The \Gls{latexg} typesetting markup language is specially suitable 
-for documents that include \gls{mathsg}. 
-
-
-Given a set of numbers, there are elementary methods to compute 
-its \acrlong{gcd}, which is abbreviated \acrshort{gcd}. This 
-process is similar to that used for the \acrfull{lcm}.
-
+Für eine Menge von Zahlen gibt es elementare Verfahren zur Bestimmung des
+\acrlong{gcd}, abgekürzt \acrshort{gcd}. Ähnlich verfährt man beim
+\acrfull{lcm}.

@@ -1,5 +1,31 @@
-\usepackage[utf8]{inputenc}
-\usepackage{hyperref}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  structure_presentation.tex -- Layout der Beamer-Praesentation
+%
+%  Arbeitsteilung:
+%    presentation.tex            Metadaten, Fakultaetsfarbe, Folienreihenfolge
+%    structure_presentation.tex  diese Datei: Folienlayout und \EIT...-Befehle
+%    99_example.tex              Beispielfolien (gehoert nicht in die Abgabe)
+%
+%  Die Farbe ThemeColor muss VOR dem Einbinden dieser Datei definiert sein.
+%
+%  Die vier Hintergrund-PDFs des HKA-Corporate-Designs liegen im Ordner, den
+%  \hkaTemplatePath angibt (Vorgabe: Templates/).
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%==============================================================================
+%  PFAD ZU DEN HINTERGRUND-PDFS
+%==============================================================================
+% Frueher stand "Templates/" an vier Stellen fest verdrahtet. Ueber diesen
+% Befehl laesst sich der Ordner an einer Stelle umhaengen.
+\newcommand{\hkaTemplatePath}{Templates/}
+
+%==============================================================================
+%  SEITENFORMAT UND SCHRIFT
+%==============================================================================
+% inputenc entfaellt: UTF-8 ist seit 2018 LaTeX-Standard.
+% hyperref bringt die Beamer-Klasse bereits mit.
 
 % Change the presentation layout
 \geometry{papersize={33.867cm,19.05cm}}
@@ -32,7 +58,11 @@
 \usepackage[T1]{fontenc}
 \renewcommand*\oldstylenums[1]{\carlitoOsF #1}
 
-\usepackage[backend=biber, style=ieee]{biblatex}
+\usepackage[style=numeric,citestyle=numeric,sorting=none,sortcites=true,autopunct=true,hyperref=true,abbreviate=false,backref=true,backend=bibtex]{biblatex}
+% Intelligente Querverweise: \cref{eq:xyz} schreibt "Gl. (1)" -- das Wort
+% davor entfaellt also. Muss nach hyperref stehen, das die Beamer-Klasse laedt.
+\usepackage[ngerman,capitalise]{cleveref}
+
 \usepackage{verbatim}
 \usepackage{ragged2e}
 
@@ -44,9 +74,15 @@
 %	DIGITAL LOGIC & ELECTRONICS & PHYSICAL UNITS
 %----------------------------------------------------------------------------------------
 \usepackage[european, RPvoltages]{circuitikz}
-\usepackage{xparse,siunitx}
+\usepackage{xparse}
+% siunitx wird weiter unten zusammen mit booktabs geladen -- eine Ladung genuegt.
 
-\usepackage{color, colortbl}
+% Deutsche Zahlkonventionen wie im Skript: Dezimalkomma statt Punkt (DIN 1333).
+% Fuer eine englische Praesentation auf locale=US umstellen.
+
+% Nur colortbl: das alte color-Paket wird nicht gebraucht, die Beamer-Klasse
+% laedt bereits xcolor.
+\usepackage{colortbl}
 \usepackage{lipsum}
 \usepackage{graphicx,trimclip}
 \usepackage{setspace}
@@ -58,6 +94,7 @@
 	\monthname[\THEMONTH] \THEYEAR}
 
 \usepackage{booktabs,siunitx,array,threeparttable}
+\sisetup{locale = DE, per-mode = symbol}
 
 \newcommand*\MeasuredFigureLabel[1]{
 	\addtocounter{figure}{-1}
@@ -82,7 +119,7 @@
 
 \setbeamertemplate{background}
 {
-	\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{Templates/HKA-Normal.pdf}
+	\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{\hkaTemplatePath HKA-Normal.pdf}
 }
 
 
@@ -253,7 +290,7 @@
 	\begin{frame}
 
 		\begin{tikzpicture}[remember picture, overlay]
-			\node[at=(current page.center)]{\includegraphics[width=\paperwidth, height=\paperheight]{Templates/HKA-Opening.pdf}};
+			\node[at=(current page.center)]{\includegraphics[width=\paperwidth, height=\paperheight]{\hkaTemplatePath HKA-Opening.pdf}};
 
 			\node[inner sep=0pt, text width=\paperwidth, anchor=south west] at ($(current page.center) + (-16cm, 2.6cm)$)
 			{\fontsize{\covertextsize}{30}\selectfont\color{ThemeColor} #1};
@@ -271,7 +308,7 @@
 		\end{tikzpicture}
 
 		\begin{tikzpicture}[remember picture, overlay]
-			\node[at=(current page.center)]{\includegraphics[width=\paperwidth, height=\paperheight]{Templates/HKA_Opening_KA_text.pdf}};
+			\node[at=(current page.center)]{\includegraphics[width=\paperwidth, height=\paperheight]{\hkaTemplatePath HKA_Opening_KA_text.pdf}};
 		\end{tikzpicture}
 	\end{frame}
 }
@@ -280,7 +317,7 @@
 	\begin{frame}
 
 		\begin{tikzpicture}[remember picture, overlay]
-			\node[at=(current page.center)]{\includegraphics[width=\paperwidth, height=\paperheight]{Templates/HKA-Opening.pdf}};
+			\node[at=(current page.center)]{\includegraphics[width=\paperwidth, height=\paperheight]{\hkaTemplatePath HKA-Opening.pdf}};
 
 			\node[inner sep=0pt, text width=\paperwidth, anchor=south west](title) at ($(current page.center) + (-16cm, 3.825cm)$)
 			{
@@ -305,7 +342,7 @@
 		\end{tikzpicture}
 
 		\begin{tikzpicture}[remember picture, overlay]
-			\node[at=(current page.center)]{\includegraphics[width=\paperwidth, height=\paperheight]{Templates/HKA_Opening_KA_text.pdf}};
+			\node[at=(current page.center)]{\includegraphics[width=\paperwidth, height=\paperheight]{\hkaTemplatePath HKA_Opening_KA_text.pdf}};
 		\end{tikzpicture}
 	\end{frame}
 }
@@ -350,7 +387,7 @@
 		\fi
 
 		\begin{tikzpicture}[remember picture, overlay]
-			\node[at=(current page.center)]{\includegraphics[width=\paperwidth, height=\paperheight]{Templates/HKA_Slide_KA_text.pdf}};
+			\node[at=(current page.center)]{\includegraphics[width=\paperwidth, height=\paperheight]{\hkaTemplatePath HKA_Slide_KA_text.pdf}};
 		\end{tikzpicture}
 	\end{frame}
 }
