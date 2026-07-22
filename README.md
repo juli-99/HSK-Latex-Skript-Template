@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://www.h-ka.de/typo3conf/ext/in2template/Resources/Public/Images/Icons/Favicons/favicon-256x256.png" width="96" alt="HKA">
+<img src="https://www.h-ka.de/_assets/a92153751098915699a1afa17e77f864/Images/Icons/Favicons/favicon-256x256.png" width="96" alt="HKA">
 
 # HKA LaTeX-Vorlage
 
